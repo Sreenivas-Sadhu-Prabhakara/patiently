@@ -1,0 +1,22 @@
+{
+  "name": "@patiently/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared domain types, DTOs and Zod schemas used by backend, middleware and frontend.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  }
+}

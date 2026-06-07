@@ -1,0 +1,25 @@
+{
+  "name": "@patiently/backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Domain core: repository, store adapters, frugality engine, purchase engine and the daily-search worker.",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "job:daily-search": "tsx src/jobs/daily-search.ts",
+    "seed": "tsx src/jobs/seed.ts"
+  },
+  "dependencies": {
+    "@patiently/shared": "*",
+    "zod": "^3.24.1"
+  }
+}
