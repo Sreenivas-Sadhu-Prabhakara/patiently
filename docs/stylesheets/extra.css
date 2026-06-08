@@ -1,84 +1,212 @@
-/* Patiently — landing + docs theme tweaks (Material for MkDocs). */
+/* ============================================================================
+   Patiently — "Noir Luxe" theme for Material for MkDocs.
+   Near-black canvas · warm ivory ink · champagne-gold accent · light serif
+   display · generous negative space. Quiet, expensive, minimal.
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&display=swap");
+
 :root {
-  --pat-primary: #6d5cff;
-  --pat-accent: #ffb547;
-  --pat-plum: #14102a;
-  --pat-plum-2: #1d1640;
-  --md-primary-fg-color: #6d5cff;
-  --md-accent-fg-color: #6d5cff;
+  --noir-bg: #0b0b0c;
+  --noir-surface: #141417;
+  --noir-surface-2: #1a1a1e;
+  --noir-line: rgba(237, 232, 224, 0.1);
+  --gold: #c5a572;
+  --gold-bright: #d8bc8c;
+  --ink: #ede8e0;
+  --ink-dim: #a7a29a;
+  --ink-faint: #6f6a62;
+  --good: #9bb098;
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+}
+
+/* ── Material palette overrides (dark "slate" scheme) ─────────────────────── */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: var(--noir-bg);
+  --md-default-fg-color: var(--ink);
+  --md-default-fg-color--light: var(--ink-dim);
+  --md-default-fg-color--lighter: var(--ink-faint);
+  --md-default-fg-color--lightest: rgba(237, 232, 224, 0.05);
+  --md-primary-fg-color: var(--noir-bg);
+  --md-primary-bg-color: var(--ink);
+  --md-accent-fg-color: var(--gold-bright);
+  --md-typeset-color: var(--ink);
+  --md-typeset-a-color: var(--gold);
+  --md-code-bg-color: #141417;
+  --md-code-fg-color: #d6d1c8;
+  --md-footer-bg-color: var(--noir-bg);
+  --md-footer-bg-color--dark: var(--noir-bg);
+}
+
+body {
+  background: var(--noir-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography — light serif display, airy sans body ─────────────────────── */
+.md-typeset {
+  font-size: 0.82rem;
+  line-height: 1.85;
+  color: var(--ink-dim);
+}
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.md-typeset h1 {
+  font-size: 2.6rem;
+  line-height: 1.1;
+  margin: 0 0 1.2rem;
+}
+.md-typeset h2 {
+  font-size: 2rem;
+  line-height: 1.15;
+  margin: 3.5rem 0 1rem;
+}
+.md-typeset h3 {
+  font-size: 1.35rem;
+  margin: 2.2rem 0 0.6rem;
+}
+.md-typeset strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.md-typeset a {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(197, 165, 114, 0.3);
+  transition: border-color 0.2s ease;
+}
+.md-typeset a:hover {
+  border-color: var(--gold);
+}
+
+/* ── Top app bar + tabs ───────────────────────────────────────────────────── */
+.md-header {
+  background: rgba(11, 11, 12, 0.85);
+  backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid var(--noir-line);
+  box-shadow: none;
+}
+.md-header__title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+.md-tabs {
+  background: transparent;
+  border-bottom: 1px solid var(--noir-line);
+}
+.md-tabs__link {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  opacity: 1;
+  color: var(--ink);
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.md-typeset .md-button {
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 0.85em 1.8em;
+  border: 1px solid rgba(197, 165, 114, 0.45);
+  border-radius: 0;
+  color: var(--gold);
+  background: transparent;
+  transition: all 0.25s ease;
+}
+.md-typeset .md-button:hover {
+  background: transparent;
+  border-color: var(--gold);
+  color: var(--gold-bright);
+  box-shadow: inset 0 0 0 1px rgba(197, 165, 114, 0.35);
+}
+.md-typeset .md-button--primary {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #161208;
+}
+.md-typeset .md-button--primary:hover {
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+  color: #161208;
 }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 .hero {
-  margin: -1.2rem -0.8rem 2.5rem;
-  padding: 4.5rem 1.5rem 4rem;
+  margin: -1.2rem -0.8rem 4rem;
+  padding: 7rem 1.5rem 5.5rem;
   text-align: center;
-  color: #fff;
-  background: radial-gradient(120% 80% at 50% 0%, var(--pat-plum-2) 0%, var(--pat-plum) 70%);
-  border-radius: 0 0 28px 28px;
+  position: relative;
+  background:
+    radial-gradient(80% 50% at 50% -10%, rgba(197, 165, 114, 0.08), transparent 60%),
+    var(--noir-bg);
+  border-bottom: 1px solid var(--noir-line);
 }
 .hero .hero-eyebrow {
   display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--pat-accent);
-  background: rgba(255, 181, 71, 0.12);
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  margin-bottom: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  background: none;
+  padding: 0;
 }
-.hero h1 {
-  font-size: 2.7rem;
-  line-height: 1.1;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #fff;
-  margin: 0 auto 1rem;
-  max-width: 16ch;
+.hero .hero-eyebrow::before,
+.hero .hero-eyebrow::after {
+  content: "";
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: rgba(197, 165, 114, 0.5);
+  vertical-align: middle;
+  margin: 0 0.9rem;
+}
+.md-typeset .hero h1 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  max-width: 18ch;
+  margin: 0 auto 1.6rem;
 }
 .hero p.tagline {
-  font-size: 1.15rem;
-  line-height: 1.6;
-  color: #cfc9e6;
-  max-width: 56ch;
-  margin: 0 auto 2rem;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--ink-dim);
+  max-width: 50ch;
+  margin: 0 auto 2.6rem;
+  font-weight: 300;
 }
 .hero .hero-ctas {
   display: flex;
-  gap: 0.8rem;
+  gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
 }
-.hero .md-button {
-  margin: 0;
-}
-.hero .md-button--primary {
-  background: var(--pat-accent);
-  border-color: var(--pat-accent);
-  color: #4a2c00;
-}
-.hero .md-button--primary:hover {
-  background: #ffc46b;
-  border-color: #ffc46b;
-  color: #3a2200;
-}
-.hero .md-button:not(.md-button--primary) {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-.hero .md-button:not(.md-button--primary):hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #fff;
-}
 .hero-sub {
-  margin-top: 1.6rem;
-  font-size: 0.85rem;
-  color: #9b93bd;
+  margin-top: 2.4rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
 }
-
-/* Hide the H1 the landing page would otherwise render above the hero. */
 .md-typeset .hero + h1 {
   display: none;
 }
@@ -87,49 +215,158 @@
 .section-label {
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--pat-primary);
-  margin-bottom: 0.2rem;
+  letter-spacing: 0.3em;
+  font-size: 0.64rem;
+  font-weight: 500;
+  color: var(--gold);
+  margin: 0 0 0.4rem;
 }
+.md-typeset .centered,
 .centered {
   text-align: center;
 }
-
-/* Step numbers for the "how it works" trio. */
+.md-typeset h2.centered {
+  max-width: 24ch;
+  margin-left: auto;
+  margin-right: auto;
+}
 .step-num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 999px;
-  background: var(--pat-primary);
-  color: #fff;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(197, 165, 114, 0.45);
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
 }
 
-/* Big final call-to-action band. */
+/* ── Grid cards ───────────────────────────────────────────────────────────── */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .card {
+  background: var(--noir-surface);
+  border: 1px solid var(--noir-line);
+  border-radius: 2px;
+  padding: 1.8rem 1.6rem;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: rgba(197, 165, 114, 0.4);
+  background: var(--noir-surface-2);
+  transform: translateY(-3px);
+}
+.md-typeset .grid.cards > ul > li > hr {
+  margin: 0.9rem 0;
+  border-color: var(--noir-line);
+}
+.md-typeset .grid.cards .twemoji svg,
+.md-typeset .grid.cards .twemoji {
+  fill: var(--gold);
+  color: var(--gold);
+}
+.md-typeset .grid.cards strong {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: 0;
+}
+
+/* ── Admonitions / details ────────────────────────────────────────────────── */
+.md-typeset .admonition,
+.md-typeset details {
+  border: 1px solid var(--noir-line);
+  border-left: 2px solid var(--gold);
+  border-radius: 2px;
+  background: var(--noir-surface);
+  box-shadow: none;
+  font-size: 0.78rem;
+}
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background: transparent !important;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.md-typeset .admonition-title::before,
+.md-typeset summary::before {
+  background-color: var(--gold) !important;
+}
+
+/* ── Code, tables, rules ──────────────────────────────────────────────────── */
+.md-typeset code {
+  background: var(--noir-surface-2);
+  border: 1px solid var(--noir-line);
+  border-radius: 2px;
+  color: #cbb890;
+  font-size: 0.78em;
+}
+.md-typeset pre > code {
+  border: 1px solid var(--noir-line);
+}
+.md-typeset table:not([class]) {
+  border: 1px solid var(--noir-line);
+  border-radius: 2px;
+  font-size: 0.76rem;
+}
+.md-typeset table:not([class]) th {
+  background: var(--noir-surface);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.md-typeset table:not([class]) td {
+  border-top: 1px solid var(--noir-line);
+}
+.md-typeset hr {
+  border-bottom: 1px solid var(--noir-line);
+  margin: 3rem 0;
+}
+
+/* ── Final CTA band ───────────────────────────────────────────────────────── */
 .cta-band {
-  margin: 3rem -0.8rem 0;
-  padding: 3rem 1.5rem;
+  margin: 4.5rem -0.8rem 0;
+  padding: 5rem 1.5rem;
   text-align: center;
-  color: #fff;
-  background: linear-gradient(135deg, var(--pat-primary), #8b78ff);
-  border-radius: 24px;
+  background:
+    radial-gradient(70% 60% at 50% 0%, rgba(197, 165, 114, 0.07), transparent 70%),
+    var(--noir-bg);
+  border: 1px solid var(--noir-line);
+  border-radius: 2px;
 }
-.cta-band h2 {
-  color: #fff;
-  margin-top: 0;
-}
-.cta-band .md-button--primary {
-  background: #fff;
-  border-color: #fff;
-  color: var(--pat-primary);
+.md-typeset .cta-band h2 {
+  color: var(--ink);
+  margin: 0 auto 1.6rem;
+  max-width: 22ch;
 }
 
-.md-typeset .grid.cards > ul > li {
-  border-radius: 14px;
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+.md-footer-meta {
+  background: var(--noir-bg);
+  border-top: 1px solid var(--noir-line);
+}
+.md-copyright {
+  color: var(--ink-faint);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Sidebar / nav / search refinements ───────────────────────────────────── */
+.md-nav__title {
+  letter-spacing: 0.04em;
+}
+.md-nav__link--active,
+.md-nav__link:hover {
+  color: var(--gold) !important;
+}
+.md-search__form {
+  background: var(--noir-surface);
+  border: 1px solid var(--noir-line);
+  border-radius: 2px;
 }

@@ -11,21 +11,12 @@ theme:
   icon:
     logo: material/timer-sand
     repo: fontawesome/brands/github
+  # Noir Luxe — a single, committed dark palette. Colours are overridden in
+  # docs/stylesheets/extra.css; this just selects the dark scheme.
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: deep purple
-      accent: amber
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: deep purple
-      accent: amber
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
+    scheme: slate
+    primary: black
+    accent: amber
   font:
     text: Inter
     code: JetBrains Mono

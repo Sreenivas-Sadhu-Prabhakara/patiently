@@ -5,14 +5,14 @@ hide:
 ---
 
 <div class="hero" markdown>
-<span class="hero-eyebrow">Intentional buying · Made for India 🇮🇳</span>
+<span class="hero-eyebrow">Intentional buying · India</span>
 
-# Want it in 3–6 months? We'll get it for the least money.
+# Want it in three to six months? We'll quietly get it for less.
 
 <p class="tagline">
-Tell Patiently what you want and when you need it by. We quietly hunt the
-cheapest <strong>landed price</strong> across India's stores every day — and buy
-it the moment you tap <strong>approve</strong>.
+Tell Patiently what you want and when you need it by. We hunt the cheapest
+<strong>landed price</strong> across India's stores, every day — and acquire it
+the moment you approve. Nothing sooner. Nothing louder.
 </p>
 
 <div class="hero-ctas" markdown>
