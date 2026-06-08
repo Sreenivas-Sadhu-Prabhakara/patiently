@@ -6,7 +6,14 @@ import prettier from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['**/dist/**', '**/build/**', '**/node_modules/**', '**/coverage/**', 'data/**'],
+    ignores: [
+      '**/dist/**',
+      '**/build/**',
+      '**/node_modules/**',
+      '**/coverage/**',
+      'data/**',
+      'mobile/**',
+    ],
   },
   js.configs.recommended,
   {

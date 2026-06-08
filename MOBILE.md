@@ -1,7 +1,9 @@
-# Mobile plan
+# Mobile
 
-Patiently is a mobile product. The web client is the first surface; a native app
-is the next, and the architecture is built for it from day one.
+Patiently is a mobile-first product. The web client is one surface; the **Flutter
+app in [`mobile/`](./mobile) is the real mobile client** (Android + iOS from one
+codebase), built and verified (`flutter analyze` clean, `flutter test` green, web
+build succeeds).
 
 ## Why mobile fits this product
 
@@ -10,44 +12,43 @@ is a **push notification**. That moment lives or dies on mobile. The daily-searc
 worker already creates `Notification` records (`approval_needed`, `deal_found`,
 `purchased`); those are exactly what a push pipeline sends.
 
-## What's already mobile-ready
+## What the Flutter client reuses
 
-- **Shared contract.** `@patiently/shared` is platform-agnostic — React Native
-  imports the same types and Zod schemas.
-- **One API surface.** Everything goes through the middleware over plain JSON.
-  There is no web-only coupling.
-- **Reusable client.** `apps/frontend/src/api/client.ts` (the typed `ApiClient`)
-  works unchanged in React Native — only the token store differs (`localStorage`
-  → `expo-secure-store` / `AsyncStorage`). Factor that one line behind an
-  interface and the file is shared as-is.
-- **Mobile-first UI.** The web app is a single-column, phone-width, card-based
-  layout with safe-area insets — the interaction model ports directly.
+- **One API surface.** Everything goes through the middleware over plain JSON —
+  no web-only coupling. The Dart `ApiClient` (`mobile/lib/data/api_client.dart`)
+  mirrors the web client against the same contract.
+- **Shared contract, mirrored in Dart.** `mobile/lib/data/{enums,models}.dart`
+  mirror `@patiently/shared`; money stays integer paise and is formatted ₹ (en-IN)
+  with `intl`, identical to the web. (A future step could codegen these Dart
+  models from the Zod schemas to keep them in lock-step automatically.)
+- **Same interaction model.** Phone-width, card-based wish list → best landed
+  price → one-tap **Approve & buy**, matching the web UX and brand theme.
 
-## Proposed approach
+## What's implemented in `mobile/`
 
-- **React Native + Expo, TypeScript.** Fastest path to iOS + Android from one
-  codebase; Expo handles push, secure storage, and OTA updates.
-- **Add `apps/mobile`** as a fourth workspace consuming `@patiently/shared` and
-  the shared `ApiClient`. No backend/middleware changes required.
+- Passwordless sign-in (secure-storage JWT via `flutter_secure_storage`).
+- Wish list with best landed price, GST-inclusive breakdown, savings, status, and
+  pull-to-refresh.
+- Create-wish flow (item, brand, ₹ budget, 3–6 month horizon, condition, stores).
+- Approve / reject a proposal and "check price now" — wired to the live API.
+- **Biometric-gated approval** (`local_auth`) before the money-moving action,
+  degrading gracefully where biometrics aren't configured.
+
+## Next steps to production
+
 - **Push + WhatsApp/SMS (India).** Add a `PushSender` in the backend's
-  `NotificationService` seam (Expo Push / FCM / APNs). Store device tokens per
-  user; send a push whenever an `approval_needed` notification is created, and
-  deep-link straight to the wish's Approve & buy screen. In India, also wire a
-  **WhatsApp Business API** template (and SMS fallback) — for many users WhatsApp
-  is the primary channel, and an "approve to buy" template message converts the
-  moment even when the app isn't open.
-- **Biometric + UPI approval.** Gate "Approve & buy" behind Face ID / fingerprint,
-  then complete payment via **UPI** (intent/collect) or a tokenised card through
-  Razorpay/PayU — the natural, India-native trust step before money moves.
-- **Background refresh.** The daily search runs server-side (cron → job endpoint),
-  so the app needs no background work; it just renders fresh state and reacts to
-  pushes.
+  `NotificationService` seam (FCM / APNs via Firebase Messaging). Register device
+  tokens; send a push when an `approval_needed` notification is created and
+  deep-link to the wish. Also wire a **WhatsApp Business API** template (+ SMS
+  fallback) — for many Indian users WhatsApp is the primary channel.
+- **UPI checkout.** Complete the approved purchase via **UPI** (intent/collect) or
+  a tokenised card through Razorpay/PayU — replacing the mock checkout provider.
+- **Biometric platform config.** iOS `NSFaceIDUsageDescription`; Android
+  `USE_BIOMETRIC` permission + a `FlutterFragmentActivity` host, so the prompt
+  actually appears (the gate already degrades safely without it).
+- **Model codegen + CI.** Generate Dart models from the shared Zod schemas; add a
+  `flutter analyze && flutter test` job to CI.
+- **Background refresh is server-side** — the daily search runs via cron → job
+  endpoint, so the app just renders fresh state and reacts to pushes.
 
-## Rollout
-
-1. Web MVP (this repo) — validate the loop and the frugality engine. ✅
-2. Extract `ApiClient` token storage behind an interface (web + native impls).
-3. `apps/mobile` (Expo) reusing shared types + client; ship the wish list,
-   create-wish, and approve-to-buy screens.
-4. Push pipeline + device-token registration endpoint in the middleware.
-5. Biometric approval, deep links, app-store release.
+See [`mobile/README.md`](./mobile/README.md) to run it.

@@ -34,12 +34,14 @@ patiently/
 │                                                frugality engine · purchase engine · daily-search worker
 ├── apps/middleware/      @patiently/middleware  Fastify API gateway / BFF: auth · validation ·
 │                                                routing · scheduler — the only thing clients call
-└── apps/frontend/        @patiently/frontend    Vite + React, mobile-first web client
+├── apps/frontend/        @patiently/frontend    Vite + React, mobile-first web client
+└── mobile/               Flutter app (Android + iOS) — the native mobile client
 ```
 
-Clients (web today, **React Native next** — see [MOBILE.md](./MOBILE.md)) talk
-only to the middleware. The middleware depends on the backend through a single
-facade, so the backend can later run as its own service unchanged.
+Clients — the **React web app** and the **Flutter mobile app** (`mobile/`, see
+[MOBILE.md](./MOBILE.md)) — talk only to the middleware over the same JSON API.
+The middleware depends on the backend through a single facade, so the backend can
+later run as its own service unchanged.
 
 ## The frugality engine
 

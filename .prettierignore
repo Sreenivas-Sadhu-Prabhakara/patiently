@@ -5,3 +5,6 @@ coverage
 *.tsbuildinfo
 data
 package-lock.json
+
+# Flutter mobile client — managed by its own toolchain (flutter analyze/format)
+mobile
