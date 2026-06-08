@@ -22,6 +22,8 @@
     "format:check": "prettier --check .",
     "test": "npm run test --workspaces --if-present",
     "codegen": "tsx packages/shared/codegen/generate-dart.ts",
+    "docs:serve": "python3 -m mkdocs serve",
+    "docs:build": "python3 -m mkdocs build --strict",
     "job:daily-search": "npm run job:daily-search -w @patiently/backend",
     "seed": "npm run seed -w @patiently/backend"
   },

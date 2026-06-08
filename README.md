@@ -82,6 +82,19 @@ Open http://localhost:5173 and sign in as **demo@patiently.app** (pre-filled).
 | `npm run typecheck`               | Type-check every workspace                            |
 | `npm run lint` / `npm run format` | Lint / format the monorepo                            |
 
+## Documentation site
+
+A **Material for MkDocs** site doubles as the product landing page, marketing
+funnel, and full documentation (how it works, architecture, mobile, API, FAQ):
+
+```bash
+python3 -m pip install -r requirements-docs.txt
+npm run docs:serve     # live preview at http://localhost:8000
+npm run docs:build     # static build to ./site (used by CI/deploy)
+```
+
+Content lives in [`docs/`](./docs); config in [`mkdocs.yml`](./mkdocs.yml).
+
 ## Going live (real prices)
 
 Add either of these to `.env` and that store flips from mock to live

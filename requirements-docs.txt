@@ -1,0 +1,4 @@
+# Documentation site (Material for MkDocs). Install with:
+#   python3 -m pip install -r requirements-docs.txt
+# Then: npm run docs:serve   (or: python3 -m mkdocs serve)
+mkdocs-material>=9.5

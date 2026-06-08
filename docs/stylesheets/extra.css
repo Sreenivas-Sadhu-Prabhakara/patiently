@@ -1,0 +1,135 @@
+/* Patiently — landing + docs theme tweaks (Material for MkDocs). */
+:root {
+  --pat-primary: #6d5cff;
+  --pat-accent: #ffb547;
+  --pat-plum: #14102a;
+  --pat-plum-2: #1d1640;
+  --md-primary-fg-color: #6d5cff;
+  --md-accent-fg-color: #6d5cff;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+.hero {
+  margin: -1.2rem -0.8rem 2.5rem;
+  padding: 4.5rem 1.5rem 4rem;
+  text-align: center;
+  color: #fff;
+  background: radial-gradient(120% 80% at 50% 0%, var(--pat-plum-2) 0%, var(--pat-plum) 70%);
+  border-radius: 0 0 28px 28px;
+}
+.hero .hero-eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pat-accent);
+  background: rgba(255, 181, 71, 0.12);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-size: 2.7rem;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 auto 1rem;
+  max-width: 16ch;
+}
+.hero p.tagline {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: #cfc9e6;
+  max-width: 56ch;
+  margin: 0 auto 2rem;
+}
+.hero .hero-ctas {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero .md-button {
+  margin: 0;
+}
+.hero .md-button--primary {
+  background: var(--pat-accent);
+  border-color: var(--pat-accent);
+  color: #4a2c00;
+}
+.hero .md-button--primary:hover {
+  background: #ffc46b;
+  border-color: #ffc46b;
+  color: #3a2200;
+}
+.hero .md-button:not(.md-button--primary) {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.hero .md-button:not(.md-button--primary):hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+.hero-sub {
+  margin-top: 1.6rem;
+  font-size: 0.85rem;
+  color: #9b93bd;
+}
+
+/* Hide the H1 the landing page would otherwise render above the hero. */
+.md-typeset .hero + h1 {
+  display: none;
+}
+
+/* ── Section helpers ──────────────────────────────────────────────────────── */
+.section-label {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--pat-primary);
+  margin-bottom: 0.2rem;
+}
+.centered {
+  text-align: center;
+}
+
+/* Step numbers for the "how it works" trio. */
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: var(--pat-primary);
+  color: #fff;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+/* Big final call-to-action band. */
+.cta-band {
+  margin: 3rem -0.8rem 0;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pat-primary), #8b78ff);
+  border-radius: 24px;
+}
+.cta-band h2 {
+  color: #fff;
+  margin-top: 0;
+}
+.cta-band .md-button--primary {
+  background: #fff;
+  border-color: #fff;
+  color: var(--pat-primary);
+}
+
+.md-typeset .grid.cards > ul > li {
+  border-radius: 14px;
+}

@@ -1,0 +1,92 @@
+site_name: Patiently
+site_description: >-
+  Tell us what you want over the next 3–6 months. Patiently hunts the cheapest
+  landed price across India's stores every day and buys it on your one-tap approval.
+site_author: Patiently
+# Set this to your real domain before deploying.
+site_url: https://patiently.example.in/
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/timer-sand
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.instant
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - search.suggest
+    - search.highlight
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - tables
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - How it works: how-it-works.md
+  - Get started: getting-started.md
+  - Architecture: architecture.md
+  - Mobile app: mobile.md
+  - API reference: api.md
+  - FAQ: faq.md
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/
+      name: Source
+
+copyright: >-
+  Patiently — intentional, frugal buying for India. Prices are landed cost
+  (incl. shipping &amp; GST). We never buy without your approval.
