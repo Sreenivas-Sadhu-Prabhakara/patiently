@@ -28,14 +28,12 @@ export function Login({ onLoggedIn }: { onLoggedIn: () => void }): JSX.Element {
   return (
     <div className="auth-screen">
       <div className="auth-card">
+        <p className="eyebrow">Intentional buying · India</p>
         <div className="brand">
           <span className="brand-mark">◷</span>
           <span className="brand-name">Patiently</span>
         </div>
-        <p className="auth-tagline">
-          Tell us what you want over the next 3–6 months. We hunt the cheapest landed price every
-          day and buy it the moment you approve.
-        </p>
+        <p className="auth-tagline">Want it for less? We&apos;ll wait for the right price.</p>
         <form onSubmit={submit} className="form">
           <label className="field">
             <span>Email</span>
@@ -52,8 +50,8 @@ export function Login({ onLoggedIn }: { onLoggedIn: () => void }): JSX.Element {
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
           </label>
           {error && <p className="error">{error}</p>}
-          <button type="submit" className="btn btn-primary" disabled={busy}>
-            {busy ? 'Signing in…' : 'Continue'}
+          <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
+            {busy ? 'Signing in…' : 'Enter'}
           </button>
         </form>
       </div>

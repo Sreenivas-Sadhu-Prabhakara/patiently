@@ -85,8 +85,8 @@ export function App(): JSX.Element {
         {showForm ? (
           <WishForm onSubmit={handleCreate} onCancel={() => setShowForm(false)} />
         ) : (
-          <button className="btn btn-primary btn-block" onClick={() => setShowForm(true)}>
-            + Add something you want
+          <button className="btn btn-soft btn-block" onClick={() => setShowForm(true)}>
+            Add a wish
           </button>
         )}
 
@@ -94,10 +94,10 @@ export function App(): JSX.Element {
           <p className="muted center">Loading…</p>
         ) : active.length === 0 && !showForm ? (
           <div className="empty">
-            <p className="empty-title">Nothing on the hunt yet.</p>
+            <p className="empty-title">Nothing on the hunt, yet.</p>
             <p className="muted">
-              Add something you want in the next 3–6 months. We&apos;ll quietly track the price
-              across stores and ping you when it&apos;s the right time to buy.
+              Name something you want in the next three to six months. We&apos;ll watch the price
+              across stores, quietly, and tell you when the moment is right.
             </p>
           </div>
         ) : (
@@ -116,9 +116,7 @@ export function App(): JSX.Element {
       </main>
 
       <footer className="app-footer">
-        <span>
-          Prices are landed cost — incl. shipping &amp; GST. We never buy without your approval.
-        </span>
+        <span>Landed cost · incl. shipping &amp; GST · the approval is always yours</span>
       </footer>
     </div>
   );
