@@ -5,6 +5,7 @@ import { registerAuth } from './auth.js';
 import { corsOrigins, type MiddlewareConfig } from './config.js';
 import { registerErrorHandler } from './plugins/error-handler.js';
 import { authRoutes } from './routes/auth.routes.js';
+import { deviceRoutes } from './routes/devices.routes.js';
 import { healthRoutes } from './routes/health.routes.js';
 import { jobRoutes } from './routes/jobs.routes.js';
 import { notificationRoutes } from './routes/notifications.routes.js';
@@ -29,6 +30,7 @@ export async function buildApp(
   await authRoutes(app, backend);
   await wishRoutes(app, backend);
   await notificationRoutes(app, backend);
+  await deviceRoutes(app, backend);
   await jobRoutes(app, backend, config);
 
   return app;

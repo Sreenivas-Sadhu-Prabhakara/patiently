@@ -8,6 +8,9 @@ export { PurchaseService, NoPendingDecisionError } from './services/purchase-ser
 export { SearchService } from './services/search-service.js';
 export { UserService } from './services/user-service.js';
 export { NotificationService } from './services/notification-service.js';
+export { DeviceService } from './services/device-service.js';
+export { LogPushSender, FcmPushSender, buildPushSender } from './push/push-sender.js';
+export type { PushSender, PushMessage } from './push/push-sender.js';
 
 export type { Repository } from './repository/repository.js';
 export type { StoreAdapter } from './adapters/types.js';

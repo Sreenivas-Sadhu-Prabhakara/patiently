@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import type {
+  DeviceToken,
   Notification,
   Offer,
   PurchaseDecision,
@@ -17,6 +18,7 @@ interface Database {
   searchRuns: SearchRun[];
   decisions: PurchaseDecision[];
   notifications: Notification[];
+  deviceTokens: DeviceToken[];
 }
 
 const EMPTY_DB: Database = {
@@ -26,6 +28,7 @@ const EMPTY_DB: Database = {
   searchRuns: [],
   decisions: [],
   notifications: [],
+  deviceTokens: [],
 };
 
 /**
@@ -166,5 +169,25 @@ export class JsonFileRepository implements Repository {
       n.read = true;
       await this.persist();
     }
+  }
+
+  // ── Push device tokens ─────────────────────────────────────────────────────
+  async upsertDeviceToken(token: DeviceToken): Promise<DeviceToken> {
+    const existing = this.db.deviceTokens.find((d) => d.token === token.token);
+    if (existing) {
+      existing.userId = token.userId;
+      existing.platform = token.platform;
+    } else {
+      this.db.deviceTokens.push(token);
+    }
+    await this.persist();
+    return existing ?? token;
+  }
+  async listDeviceTokensByUser(userId: string): Promise<DeviceToken[]> {
+    return this.db.deviceTokens.filter((d) => d.userId === userId);
+  }
+  async removeDeviceToken(token: string): Promise<void> {
+    this.db.deviceTokens = this.db.deviceTokens.filter((d) => d.token !== token);
+    await this.persist();
   }
 }

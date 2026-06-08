@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
+import '../core/push_service.dart';
 import '../data/api_client.dart';
 import '../data/auth_store.dart';
 import '../data/models.dart';
@@ -29,6 +32,7 @@ class AuthController extends ChangeNotifier {
     if (token != null) {
       _api.token = token;
       _signedIn = true;
+      unawaited(PushService.registerWithBackend(_api));
     }
     _booting = false;
     notifyListeners();
@@ -43,6 +47,7 @@ class AuthController extends ChangeNotifier {
       await _store.writeToken(auth.token);
       _user = auth.user;
       _signedIn = true;
+      unawaited(PushService.registerWithBackend(_api));
       return true;
     } catch (e) {
       _error = e.toString();

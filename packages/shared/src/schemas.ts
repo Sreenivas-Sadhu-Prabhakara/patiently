@@ -60,6 +60,9 @@ export const NotificationType = z.enum([
 ]);
 export type NotificationType = z.infer<typeof NotificationType>;
 
+export const DevicePlatform = z.enum(['android', 'ios', 'web']);
+export type DevicePlatform = z.infer<typeof DevicePlatform>;
+
 // ── Core entities ────────────────────────────────────────────────────────────
 
 export const User = z.object({
@@ -163,7 +166,23 @@ export const Notification = z.object({
 });
 export type Notification = z.infer<typeof Notification>;
 
+/** A registered push-notification target (one per device per user). */
+export const DeviceToken = z.object({
+  id: z.string(),
+  userId: z.string(),
+  token: z.string(),
+  platform: DevicePlatform,
+  createdAt: z.string().datetime(),
+});
+export type DeviceToken = z.infer<typeof DeviceToken>;
+
 // ── API DTOs (request payloads) ──────────────────────────────────────────────
+
+export const RegisterDeviceInput = z.object({
+  token: z.string().min(1),
+  platform: DevicePlatform,
+});
+export type RegisterDeviceInput = z.infer<typeof RegisterDeviceInput>;
 
 export const CreateWishInput = z.object({
   title: z.string().min(2).max(160),

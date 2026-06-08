@@ -1,4 +1,5 @@
 import type {
+  DeviceToken,
   Notification,
   Offer,
   PurchaseDecision,
@@ -47,4 +48,9 @@ export interface Repository {
   addNotification(notification: Notification): Promise<Notification>;
   listNotificationsByUser(userId: string, unreadOnly?: boolean): Promise<Notification[]>;
   markNotificationRead(id: string): Promise<void>;
+
+  // Push device tokens
+  upsertDeviceToken(token: DeviceToken): Promise<DeviceToken>;
+  listDeviceTokensByUser(userId: string): Promise<DeviceToken[]>;
+  removeDeviceToken(token: string): Promise<void>;
 }

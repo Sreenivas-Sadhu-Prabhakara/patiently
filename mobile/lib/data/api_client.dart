@@ -119,4 +119,17 @@ class ApiClient {
         .map((e) => Notification.fromJson(e as Map<String, dynamic>))
         .toList();
   }
+
+  /// Register this device's push token so the backend can notify it.
+  Future<DeviceToken> registerDevice(
+    String token,
+    DevicePlatform platform,
+  ) async {
+    final res = await _http.post(
+      _uri('/api/devices'),
+      headers: _headers,
+      body: jsonEncode({'token': token, 'platform': platform.api}),
+    );
+    return DeviceToken.fromJson(_decode(res) as Map<String, dynamic>);
+  }
 }

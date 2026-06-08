@@ -73,6 +73,12 @@ const EnvSchema = z.object({
   // Flipkart Affiliate API.
   FLIPKART_AFFILIATE_ID: z.string().optional(),
   FLIPKART_AFFILIATE_TOKEN: z.string().optional(),
+
+  // Firebase Cloud Messaging (push). Service-account fields; when unset, the
+  // backend uses a log-only push sender so the flow is still demonstrable.
+  FIREBASE_PROJECT_ID: z.string().optional(),
+  FIREBASE_CLIENT_EMAIL: z.string().optional(),
+  FIREBASE_PRIVATE_KEY: z.string().optional(),
 });
 
 export type BackendConfig = z.infer<typeof EnvSchema>;

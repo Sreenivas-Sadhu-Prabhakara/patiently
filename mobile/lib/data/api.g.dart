@@ -17,6 +17,18 @@ enum DecisionStatus {
       values.firstWhere((e) => e.api == value, orElse: () => values.first);
 }
 
+enum DevicePlatform {
+  android('android'),
+  ios('ios'),
+  web('web');
+
+  const DevicePlatform(this.api);
+  final String api;
+
+  static DevicePlatform fromApi(String value) =>
+      values.firstWhere((e) => e.api == value, orElse: () => values.first);
+}
+
 enum ItemCondition {
   newItem('new'),
   used('used'),
@@ -174,6 +186,38 @@ class DecisionInput {
   Map<String, dynamic> toJson() => {
     'approve': approve,
     if (reason != null) 'reason': reason!,
+  };
+}
+
+class DeviceToken {
+  DeviceToken({
+    required this.id,
+    required this.userId,
+    required this.token,
+    required this.platform,
+    required this.createdAt,
+  });
+
+  factory DeviceToken.fromJson(Map<String, dynamic> json) => DeviceToken(
+    id: json['id'] as String,
+    userId: json['userId'] as String,
+    token: json['token'] as String,
+    platform: DevicePlatform.fromApi(json['platform'] as String),
+    createdAt: DateTime.parse(json['createdAt'] as String),
+  );
+
+  final String id;
+  final String userId;
+  final String token;
+  final DevicePlatform platform;
+  final DateTime createdAt;
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'userId': userId,
+    'token': token,
+    'platform': platform.api,
+    'createdAt': createdAt.toUtc().toIso8601String(),
   };
 }
 
@@ -379,6 +423,21 @@ class PurchaseDecision {
     if (decidedAt != null) 'decidedAt': decidedAt!.toUtc().toIso8601String(),
     if (confirmationRef != null) 'confirmationRef': confirmationRef!,
   };
+}
+
+class RegisterDeviceInput {
+  RegisterDeviceInput({required this.token, required this.platform});
+
+  factory RegisterDeviceInput.fromJson(Map<String, dynamic> json) =>
+      RegisterDeviceInput(
+        token: json['token'] as String,
+        platform: DevicePlatform.fromApi(json['platform'] as String),
+      );
+
+  final String token;
+  final DevicePlatform platform;
+
+  Map<String, dynamic> toJson() => {'token': token, 'platform': platform.api};
 }
 
 class SearchRun {
