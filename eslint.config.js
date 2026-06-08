@@ -13,6 +13,8 @@ export default [
       '**/coverage/**',
       'data/**',
       'mobile/**',
+      'site/**',
+      'docs/**',
     ],
   },
   js.configs.recommended,

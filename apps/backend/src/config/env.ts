@@ -79,6 +79,19 @@ const EnvSchema = z.object({
   FIREBASE_PROJECT_ID: z.string().optional(),
   FIREBASE_CLIENT_EMAIL: z.string().optional(),
   FIREBASE_PRIVATE_KEY: z.string().optional(),
+
+  // Partner storefront APIs (Croma, Reliance Digital, Tata CLiQ, Myntra). These
+  // retailers don't publish open product APIs, so each adapter is gated behind a
+  // partner/affiliate base URL + API key you obtain from the retailer; when a
+  // store's pair is unset, the registry uses its deterministic mock feed.
+  CROMA_API_BASE: z.string().optional(),
+  CROMA_API_KEY: z.string().optional(),
+  RELIANCE_DIGITAL_API_BASE: z.string().optional(),
+  RELIANCE_DIGITAL_API_KEY: z.string().optional(),
+  TATA_CLIQ_API_BASE: z.string().optional(),
+  TATA_CLIQ_API_KEY: z.string().optional(),
+  MYNTRA_API_BASE: z.string().optional(),
+  MYNTRA_API_KEY: z.string().optional(),
 });
 
 export type BackendConfig = z.infer<typeof EnvSchema>;
