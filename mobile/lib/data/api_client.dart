@@ -113,10 +113,10 @@ class ApiClient {
     _decode(res);
   }
 
-  Future<List<AppNotification>> listNotifications() async {
+  Future<List<Notification>> listNotifications() async {
     final res = await _http.get(_uri('/api/notifications'), headers: _headers);
     return (_decode(res) as List<dynamic>)
-        .map((e) => AppNotification.fromJson(e as Map<String, dynamic>))
+        .map((e) => Notification.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 }

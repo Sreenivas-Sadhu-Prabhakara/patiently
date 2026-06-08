@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 import '../data/api_client.dart';
-import '../data/enums.dart';
 import '../data/models.dart';
 
 /// Owns the wish list and the actions on it (create / search-now / approve /

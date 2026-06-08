@@ -12,13 +12,13 @@ class AuthController extends ChangeNotifier {
   final ApiClient _api;
   final AuthStore _store;
 
-  AppUser? _user;
+  User? _user;
   bool _signedIn = false;
   bool _booting = true;
   bool _busy = false;
   String? _error;
 
-  AppUser? get user => _user;
+  User? get user => _user;
   bool get signedIn => _signedIn;
   bool get booting => _booting;
   bool get busy => _busy;

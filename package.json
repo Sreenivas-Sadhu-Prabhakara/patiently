@@ -21,6 +21,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "npm run test --workspaces --if-present",
+    "codegen": "tsx packages/shared/codegen/generate-dart.ts",
     "job:daily-search": "npm run job:daily-search -w @patiently/backend",
     "seed": "npm run seed -w @patiently/backend"
   },

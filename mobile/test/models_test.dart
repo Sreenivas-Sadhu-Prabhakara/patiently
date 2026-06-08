@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:patiently/data/enums.dart';
 import 'package:patiently/data/models.dart';
 
 const String _wishViewJson = '''
@@ -65,13 +64,12 @@ void main() {
     expect(json['maxBudgetCents'], 9000000);
   });
 
-  test('omits empty brand from the payload', () {
+  test('omits null optional fields from the payload', () {
     final CreateWishInput input = CreateWishInput(
       title: 'Anything',
       desiredByDate: DateTime.utc(2026, 12, 1),
       condition: ItemCondition.newItem,
       allowedStores: const [],
-      brand: '',
     );
     expect(input.toJson().containsKey('brand'), isFalse);
     expect(input.toJson().containsKey('maxBudgetCents'), isFalse);

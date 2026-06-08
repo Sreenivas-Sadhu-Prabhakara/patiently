@@ -58,7 +58,7 @@ class _WishFormScreenState extends State<WishFormScreen> {
       desiredByDate: _horizon(),
       condition: _condition,
       allowedStores: _stores.toList(),
-      brand: _brand.text.trim(),
+      brand: _brand.text.trim().isEmpty ? null : _brand.text.trim(),
       maxBudgetCents: budgetCents,
     );
 

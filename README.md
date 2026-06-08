@@ -72,14 +72,15 @@ Open http://localhost:5173 and sign in as **demo@patiently.app** (pre-filled).
 
 ### Useful scripts
 
-| Command                           | What it does                                       |
-| --------------------------------- | -------------------------------------------------- |
-| `npm run dev`                     | Run middleware + frontend together                 |
-| `npm run seed`                    | Seed demo data and run one search pass             |
-| `npm run job:daily-search`        | Run the daily-search worker once (what cron calls) |
-| `npm test`                        | Run unit tests (frugality engine, shared)          |
-| `npm run typecheck`               | Type-check every workspace                         |
-| `npm run lint` / `npm run format` | Lint / format the monorepo                         |
+| Command                           | What it does                                          |
+| --------------------------------- | ----------------------------------------------------- |
+| `npm run dev`                     | Run middleware + frontend together                    |
+| `npm run seed`                    | Seed demo data and run one search pass                |
+| `npm run codegen`                 | Generate the Flutter Dart models from the Zod schemas |
+| `npm run job:daily-search`        | Run the daily-search worker once (what cron calls)    |
+| `npm test`                        | Run unit tests (frugality engine, shared)             |
+| `npm run typecheck`               | Type-check every workspace                            |
+| `npm run lint` / `npm run format` | Lint / format the monorepo                            |
 
 ## Going live (real prices)
 
