@@ -36,29 +36,44 @@ class _WishesScreenState extends State<WishesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        titleSpacing: 16,
+        titleSpacing: 20,
         title: Row(
-          children: const [
-            Icon(Icons.schedule, color: PatientlyTheme.accent),
-            SizedBox(width: 8),
-            Text('Patiently', style: TextStyle(fontWeight: FontWeight.w700)),
+          children: [
+            const Icon(Icons.schedule, color: PatientlyTheme.gold, size: 16),
+            const SizedBox(width: 9),
+            Text(
+              'Patiently',
+              style: PatientlyTheme.serif(size: 21, weight: FontWeight.w500),
+            ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => context.read<AuthController>().logout(),
-            child: const Text('Sign out'),
+            child: const Text('SIGN OUT'),
           ),
+          const SizedBox(width: 8),
         ],
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
+          child: Divider(height: 1),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openForm,
-        backgroundColor: PatientlyTheme.primary,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add),
-        label: const Text('Add a wish'),
+        backgroundColor: PatientlyTheme.gold,
+        foregroundColor: PatientlyTheme.onGold,
+        elevation: 0,
+        highlightElevation: 0,
+        icon: const Icon(Icons.add, size: 18),
+        label: Text(
+          'ADD A WISH',
+          style: PatientlyTheme.label(size: 11, color: PatientlyTheme.onGold),
+        ),
       ),
       body: RefreshIndicator(
+        color: PatientlyTheme.gold,
+        backgroundColor: PatientlyTheme.surface,
         onRefresh: controller.load,
         child: _Body(controller: controller, wishCount: wishes.length),
       ),
@@ -75,28 +90,25 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (controller.loading && wishCount == 0) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: CircularProgressIndicator(color: PatientlyTheme.gold),
+      );
     }
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+      padding: const EdgeInsets.fromLTRB(24, 26, 24, 110),
       children: [
         _Summary(count: wishCount, awaiting: controller.awaitingCount),
         if (controller.error != null) ...[
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           _ErrorBanner(message: controller.error!),
         ],
-        const SizedBox(height: 12),
+        const SizedBox(height: 20),
         if (wishCount == 0)
           const _Empty()
         else
-          ...controller.wishes.map(
-            (view) => Padding(
-              padding: const EdgeInsets.only(bottom: 14),
-              child: WishCard(view: view),
-            ),
-          ),
+          ...controller.wishes.map((view) => WishCard(view: view)),
       ],
     );
   }
@@ -112,24 +124,27 @@ class _Summary extends StatelessWidget {
     return Row(
       children: [
         Text(
-          '$count item${count == 1 ? '' : 's'} on the hunt',
-          style: const TextStyle(color: PatientlyTheme.inkSoft, fontSize: 15),
+          '$count ITEM${count == 1 ? '' : 'S'} ON THE HUNT',
+          style: PatientlyTheme.label(
+            size: 11,
+            color: PatientlyTheme.inkFaint,
+            tracking: 2.2,
+          ),
         ),
         if (awaiting > 0) ...[
-          const SizedBox(width: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-            decoration: BoxDecoration(
-              color: PatientlyTheme.accent,
-              borderRadius: BorderRadius.circular(999),
+          Text(
+            '   ·   ',
+            style: PatientlyTheme.label(
+              size: 11,
+              color: PatientlyTheme.inkFaint,
             ),
-            child: Text(
-              '$awaiting ready to buy',
-              style: const TextStyle(
-                color: Color(0xFF4A2C00),
-                fontWeight: FontWeight.w700,
-                fontSize: 12,
-              ),
+          ),
+          Text(
+            '$awaiting READY TO BUY',
+            style: PatientlyTheme.label(
+              size: 11,
+              color: PatientlyTheme.gold,
+              tracking: 2.0,
             ),
           ),
         ],
@@ -146,14 +161,14 @@ class _ErrorBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFFBE9EC),
-        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: PatientlyTheme.danger.withValues(alpha: 0.4)),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: Text(
         message,
-        style: const TextStyle(color: PatientlyTheme.danger),
+        style: const TextStyle(color: PatientlyTheme.danger, fontSize: 13),
       ),
     );
   }
@@ -164,20 +179,26 @@ class _Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 48, horizontal: 8),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 8),
       child: Column(
         children: [
           Text(
-            'Nothing on the hunt yet.',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-          ),
-          SizedBox(height: 8),
-          Text(
-            "Add something you want in the next 3–6 months. We'll quietly track "
-            "the price across stores and ping you when it's the right time to buy.",
+            'Nothing on the hunt, yet.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: PatientlyTheme.inkSoft, height: 1.5),
+            style: PatientlyTheme.serif(size: 26, weight: FontWeight.w300),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            'Name something you want in the next three to six months. '
+            "We'll watch the price across stores, quietly, and tell you "
+            'when the moment is right.',
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: PatientlyTheme.inkFaint,
+              height: 1.7,
+              fontSize: 14,
+            ),
           ),
         ],
       ),

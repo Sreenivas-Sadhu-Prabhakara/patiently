@@ -57,26 +57,47 @@ class _WishCardState extends State<WishCard> {
   @override
   Widget build(BuildContext context) {
     final Offer? best = view.bestOffer;
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _header(),
-            const SizedBox(height: 12),
-            if (best != null) _bestOffer(best) else _noOffers(),
-            if (view.recentOffers.length > 1) _offersList(),
-            if (wish.status == WishStatus.awaitingApproval &&
-                view.pendingDecision != null)
-              _proposal(view.pendingDecision!),
-            if (wish.status == WishStatus.active ||
-                wish.status == WishStatus.expired)
-              _activeActions(),
-            if (wish.status == WishStatus.purchased && best != null)
-              _purchased(best),
-          ],
+    final bool awaiting = wish.status == WishStatus.awaitingApproval;
+
+    final Widget content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _header(),
+        if (best != null) _bestOffer(best) else _noOffers(),
+        if (view.recentOffers.length > 1) _offersList(),
+        if (awaiting && view.pendingDecision != null)
+          _proposal(view.pendingDecision!),
+        if (wish.status == WishStatus.active ||
+            wish.status == WishStatus.expired)
+          _activeActions(),
+        if (wish.status == WishStatus.purchased && best != null)
+          _purchased(best),
+      ],
+    );
+
+    if (awaiting) {
+      return Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.fromLTRB(18, 22, 18, 22),
+        decoration: BoxDecoration(
+          color: PatientlyTheme.surface,
+          borderRadius: BorderRadius.circular(3),
+          border: const Border(
+            left: BorderSide(color: PatientlyTheme.gold, width: 2),
+          ),
         ),
+        child: content,
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 26),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: PatientlyTheme.line)),
+      ),
+      child: Opacity(
+        opacity: wish.status == WishStatus.purchased ? 0.55 : 1,
+        child: content,
       ),
     );
   }
@@ -84,7 +105,7 @@ class _WishCardState extends State<WishCard> {
   Widget _header() {
     final String horizon = formatHorizon(wish.desiredByDate);
     final String sub = wish.maxBudgetCents != null
-        ? '$horizon · budget ${formatMoney(wish.maxBudgetCents!, currency: wish.currency)}'
+        ? '$horizon · BUDGET ${formatMoney(wish.maxBudgetCents!, currency: wish.currency)}'
         : horizon;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,24 +116,25 @@ class _WishCardState extends State<WishCard> {
             children: [
               Text(
                 wish.title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  height: 1.3,
+                style: PatientlyTheme.serif(
+                  size: 21,
+                  weight: FontWeight.w400,
+                  height: 1.25,
                 ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 8),
               Text(
-                sub,
-                style: const TextStyle(
-                  color: PatientlyTheme.inkSoft,
-                  fontSize: 13,
+                sub.toUpperCase(),
+                style: PatientlyTheme.label(
+                  size: 10,
+                  color: PatientlyTheme.inkFaint,
+                  tracking: 1.4,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: 14),
         _StatusBadge(status: wish.status),
       ],
     );
@@ -120,13 +142,8 @@ class _WishCardState extends State<WishCard> {
 
   Widget _bestOffer(Offer best) {
     final int? savings = view.savingsVsMedianCents;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: PatientlyTheme.surfaceMuted,
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(top: 22),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -134,36 +151,39 @@ class _WishCardState extends State<WishCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Text(
-                'Best landed price',
-                style: TextStyle(
-                  color: PatientlyTheme.inkSoft,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+              Text(
+                'BEST LANDED PRICE',
+                style: PatientlyTheme.label(
+                  size: 10,
+                  color: PatientlyTheme.inkFaint,
+                  tracking: 2.0,
                 ),
               ),
               Text(
                 formatMoney(best.totalLandedCents, currency: best.currency),
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                ),
+                style: PatientlyTheme.serif(size: 33, weight: FontWeight.w400),
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 12),
+          const Divider(height: 1),
+          const SizedBox(height: 12),
           Text(
             _breakdown(best),
-            style: const TextStyle(color: PatientlyTheme.inkSoft, fontSize: 12),
+            style: const TextStyle(
+              color: PatientlyTheme.inkFaint,
+              fontSize: 11.5,
+              height: 1.6,
+            ),
           ),
           if (savings != null && savings > 0) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             Text(
-              'Saving ${formatMoney(savings, currency: best.currency)} vs. the typical price',
-              style: const TextStyle(
+              'SAVING ${formatMoney(savings, currency: best.currency)} VS. THE TYPICAL PRICE',
+              style: PatientlyTheme.label(
+                size: 10,
                 color: PatientlyTheme.good,
-                fontWeight: FontWeight.w700,
-                fontSize: 13,
+                tracking: 1.4,
               ),
             ),
           ],
@@ -191,9 +211,12 @@ class _WishCardState extends State<WishCard> {
   }
 
   Widget _noOffers() {
-    return const Text(
-      'No offers captured yet — run a search to populate prices.',
-      style: TextStyle(color: PatientlyTheme.inkSoft, fontSize: 14),
+    return const Padding(
+      padding: EdgeInsets.only(top: 18),
+      child: Text(
+        'No offers captured yet — run a search to populate prices.',
+        style: TextStyle(color: PatientlyTheme.inkFaint, fontSize: 13),
+      ),
     );
   }
 
@@ -203,33 +226,45 @@ class _WishCardState extends State<WishCard> {
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
       child: ExpansionTile(
         tilePadding: EdgeInsets.zero,
-        childrenPadding: const EdgeInsets.only(bottom: 8),
+        childrenPadding: const EdgeInsets.only(bottom: 6),
+        iconColor: PatientlyTheme.gold,
+        collapsedIconColor: PatientlyTheme.inkFaint,
         title: Text(
-          '${view.recentOffers.length} offers compared',
-          style: const TextStyle(
-            color: PatientlyTheme.primary,
-            fontWeight: FontWeight.w600,
-            fontSize: 14,
+          '${view.recentOffers.length} OFFERS COMPARED',
+          style: PatientlyTheme.label(
+            size: 10,
+            color: PatientlyTheme.gold,
+            tracking: 1.8,
           ),
         ),
         children: offers
             .map(
               (o) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+                padding: const EdgeInsets.symmetric(vertical: 7),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       o.store.label,
-                      style: const TextStyle(color: PatientlyTheme.inkSoft),
+                      style: const TextStyle(
+                        color: PatientlyTheme.inkDim,
+                        fontSize: 12,
+                      ),
                     ),
                     Text(
-                      o.condition.label,
-                      style: const TextStyle(color: PatientlyTheme.inkSoft),
+                      o.condition.label.toUpperCase(),
+                      style: PatientlyTheme.label(
+                        size: 9,
+                        color: PatientlyTheme.inkFaint,
+                        tracking: 1.2,
+                      ),
                     ),
                     Text(
                       formatMoney(o.totalLandedCents, currency: o.currency),
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: PatientlyTheme.ink,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -242,28 +277,37 @@ class _WishCardState extends State<WishCard> {
 
   Widget _proposal(PurchaseDecision decision) {
     return Padding(
-      padding: const EdgeInsets.only(top: 14),
+      padding: const EdgeInsets.only(top: 22),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Divider(height: 1),
-          const SizedBox(height: 12),
-          Text(decision.reason, style: const TextStyle(fontSize: 14)),
-          const SizedBox(height: 12),
+          const Divider(height: 1, color: PatientlyTheme.lineStrong),
+          const SizedBox(height: 18),
+          Text(
+            decision.reason,
+            style: PatientlyTheme.serif(
+              size: 17,
+              weight: FontWeight.w400,
+              color: PatientlyTheme.ink,
+              height: 1.45,
+              style: FontStyle.italic,
+            ),
+          ),
+          const SizedBox(height: 18),
           Row(
             children: [
               OutlinedButton(
                 onPressed: _busy ? null : () => _decide(false),
-                child: const Text('Not now'),
+                child: const Text('NOT NOW'),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 12),
               Expanded(
                 child: FilledButton(
                   onPressed: _busy ? null : () => _decide(true),
                   child: Text(
                     _busy
-                        ? 'Working…'
-                        : 'Approve & buy ${formatMoney(decision.totalLandedCents, currency: decision.currency)}',
+                        ? 'WORKING…'
+                        : 'APPROVE & BUY ${formatMoney(decision.totalLandedCents, currency: decision.currency)}',
                   ),
                 ),
               ),
@@ -276,20 +320,17 @@ class _WishCardState extends State<WishCard> {
 
   Widget _activeActions() {
     return Padding(
-      padding: const EdgeInsets.only(top: 12),
+      padding: const EdgeInsets.only(top: 22),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlinedButton(
             onPressed: _busy ? null : _searchNow,
-            child: Text(_busy ? 'Checking…' : 'Check price now'),
+            child: Text(_busy ? 'CHECKING…' : 'CHECK PRICE NOW'),
           ),
           TextButton(
             onPressed: _busy ? null : _cancel,
-            child: const Text(
-              'Remove',
-              style: TextStyle(color: PatientlyTheme.inkSoft),
-            ),
+            child: const Text('REMOVE'),
           ),
         ],
       ),
@@ -298,13 +339,13 @@ class _WishCardState extends State<WishCard> {
 
   Widget _purchased(Offer best) {
     return Padding(
-      padding: const EdgeInsets.only(top: 14),
+      padding: const EdgeInsets.only(top: 20),
       child: Text(
-        '✓ Ordered from ${best.store.label} · ${formatMoney(best.totalLandedCents, currency: best.currency)} shipped',
-        style: const TextStyle(
+        '✓ ORDERED FROM ${best.store.label.toUpperCase()} · ${formatMoney(best.totalLandedCents, currency: best.currency)} SHIPPED',
+        style: PatientlyTheme.label(
+          size: 10,
           color: PatientlyTheme.good,
-          fontWeight: FontWeight.w700,
-          fontSize: 14,
+          tracking: 1.4,
         ),
       ),
     );
@@ -317,29 +358,29 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (Color bg, Color fg) = switch (status) {
-      WishStatus.active => (const Color(0xFFECEAFF), PatientlyTheme.primary),
-      WishStatus.awaitingApproval => (
-        PatientlyTheme.accent,
-        const Color(0xFF4A2C00),
-      ),
-      WishStatus.purchasing => (
-        const Color(0xFFECEAFF),
-        PatientlyTheme.primary,
-      ),
-      WishStatus.purchased => (const Color(0xFFE7F6EF), PatientlyTheme.good),
-      WishStatus.cancelled ||
-      WishStatus.expired => (const Color(0xFFFBE9EC), PatientlyTheme.danger),
+    final Color color = switch (status) {
+      WishStatus.active => PatientlyTheme.inkDim,
+      WishStatus.awaitingApproval => PatientlyTheme.gold,
+      WishStatus.purchasing => PatientlyTheme.gold,
+      WishStatus.purchased => PatientlyTheme.good,
+      WishStatus.cancelled || WishStatus.expired => PatientlyTheme.danger,
     };
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        status.label,
-        style: TextStyle(color: fg, fontWeight: FontWeight.w700, fontSize: 11),
+    return Padding(
+      padding: const EdgeInsets.only(top: 3),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 5,
+            height: 5,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 7),
+          Text(
+            status.label.toUpperCase(),
+            style: PatientlyTheme.label(size: 9, color: color, tracking: 1.6),
+          ),
+        ],
       ),
     );
   }

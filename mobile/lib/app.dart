@@ -39,7 +39,7 @@ class _PatientlyAppState extends State<PatientlyApp> {
       child: MaterialApp(
         title: 'Patiently',
         debugShowCheckedModeBanner: false,
-        theme: PatientlyTheme.light(),
+        theme: PatientlyTheme.dark(),
         home: const _Gate(),
       ),
     );
@@ -54,7 +54,11 @@ class _Gate extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthController auth = context.watch<AuthController>();
     if (auth.booting) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(color: PatientlyTheme.gold),
+        ),
+      );
     }
     return auth.signedIn ? const WishesScreen() : const LoginScreen();
   }

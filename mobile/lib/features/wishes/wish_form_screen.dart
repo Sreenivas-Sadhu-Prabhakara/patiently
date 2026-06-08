@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/theme.dart';
 import '../../data/enums.dart';
 import '../../data/models.dart';
 import '../../state/wishes_controller.dart';
@@ -82,12 +83,13 @@ class _WishFormScreenState extends State<WishFormScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.fromLTRB(24, 22, 24, 44),
           children: [
             TextFormField(
               controller: _title,
+              style: const TextStyle(color: PatientlyTheme.ink),
               decoration: const InputDecoration(
-                labelText: 'Item',
+                labelText: 'ITEM',
                 hintText: 'e.g. Sony WH-1000XM5 headphones',
               ),
               validator: (v) => (v == null || v.trim().length < 2)
@@ -100,8 +102,9 @@ class _WishFormScreenState extends State<WishFormScreen> {
                 Expanded(
                   child: TextFormField(
                     controller: _brand,
+                    style: const TextStyle(color: PatientlyTheme.ink),
                     decoration: const InputDecoration(
-                      labelText: 'Brand (optional)',
+                      labelText: 'BRAND (OPTIONAL)',
                     ),
                   ),
                 ),
@@ -109,11 +112,12 @@ class _WishFormScreenState extends State<WishFormScreen> {
                 Expanded(
                   child: TextFormField(
                     controller: _budget,
+                    style: const TextStyle(color: PatientlyTheme.ink),
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
                     decoration: const InputDecoration(
-                      labelText: 'Max budget (₹, shipped)',
+                      labelText: 'MAX BUDGET (₹)',
                       hintText: '26990',
                     ),
                     validator: (v) {
@@ -132,9 +136,12 @@ class _WishFormScreenState extends State<WishFormScreen> {
                 Expanded(
                   child: DropdownButtonFormField<int>(
                     initialValue: _months,
-                    decoration: const InputDecoration(
-                      labelText: 'I want it within',
+                    dropdownColor: PatientlyTheme.surface,
+                    style: const TextStyle(
+                      color: PatientlyTheme.ink,
+                      fontSize: 15,
                     ),
+                    decoration: const InputDecoration(labelText: 'WITHIN'),
                     items: const [3, 4, 5, 6]
                         .map(
                           (m) => DropdownMenuItem(
@@ -150,7 +157,12 @@ class _WishFormScreenState extends State<WishFormScreen> {
                 Expanded(
                   child: DropdownButtonFormField<ItemCondition>(
                     initialValue: _condition,
-                    decoration: const InputDecoration(labelText: 'Condition'),
+                    dropdownColor: PatientlyTheme.surface,
+                    style: const TextStyle(
+                      color: PatientlyTheme.ink,
+                      fontSize: 15,
+                    ),
+                    decoration: const InputDecoration(labelText: 'CONDITION'),
                     items: ItemCondition.values
                         .map(
                           (c) =>
@@ -163,9 +175,16 @@ class _WishFormScreenState extends State<WishFormScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            const Text('Buy from (leave empty for all stores)'),
-            const SizedBox(height: 8),
+            const SizedBox(height: 26),
+            Text(
+              'BUY FROM — LEAVE EMPTY FOR ALL STORES',
+              style: PatientlyTheme.label(
+                size: 10,
+                color: PatientlyTheme.inkFaint,
+                tracking: 1.6,
+              ),
+            ),
+            const SizedBox(height: 14),
             Wrap(
               spacing: 8,
               runSpacing: 8,
@@ -184,10 +203,10 @@ class _WishFormScreenState extends State<WishFormScreen> {
                 );
               }).toList(),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 32),
             FilledButton(
               onPressed: _busy ? null : _submit,
-              child: Text(_busy ? 'Saving…' : 'Start hunting'),
+              child: Text(_busy ? 'SAVING…' : 'START HUNTING'),
             ),
           ],
         ),

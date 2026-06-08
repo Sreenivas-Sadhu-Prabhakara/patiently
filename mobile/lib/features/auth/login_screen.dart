@@ -37,56 +37,66 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 28),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 460),
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(28),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const _Brand(centered: true),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Tell us what you want over the next 3–6 months. We hunt the '
-                        'cheapest landed price across Amazon.in, Flipkart & more — and buy '
-                        'it the moment you approve.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: PatientlyTheme.inkSoft,
-                          height: 1.5,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      TextField(
-                        controller: _email,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(labelText: 'Email'),
-                      ),
-                      const SizedBox(height: 12),
-                      TextField(
-                        controller: _name,
-                        decoration: const InputDecoration(
-                          labelText: 'Name (optional)',
-                        ),
-                      ),
-                      if (auth.error != null) ...[
-                        const SizedBox(height: 12),
-                        Text(
-                          auth.error!,
-                          style: const TextStyle(color: PatientlyTheme.danger),
-                        ),
-                      ],
-                      const SizedBox(height: 20),
-                      FilledButton(
-                        onPressed: auth.busy ? null : _submit,
-                        child: Text(auth.busy ? 'Signing in…' : 'Continue'),
-                      ),
-                    ],
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'INTENTIONAL BUYING · INDIA',
+                    textAlign: TextAlign.center,
+                    style: PatientlyTheme.label(
+                      size: 10,
+                      color: PatientlyTheme.gold,
+                      tracking: 2.6,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 18),
+                  const _Brand(),
+                  const SizedBox(height: 28),
+                  Text(
+                    "Want it for less? We'll wait for the right price.",
+                    textAlign: TextAlign.center,
+                    style: PatientlyTheme.serif(
+                      size: 27,
+                      weight: FontWeight.w300,
+                      height: 1.3,
+                    ),
+                  ),
+                  const SizedBox(height: 38),
+                  TextField(
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    style: const TextStyle(color: PatientlyTheme.ink),
+                    decoration: const InputDecoration(labelText: 'EMAIL'),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _name,
+                    style: const TextStyle(color: PatientlyTheme.ink),
+                    decoration: const InputDecoration(
+                      labelText: 'NAME (OPTIONAL)',
+                    ),
+                  ),
+                  if (auth.error != null) ...[
+                    const SizedBox(height: 16),
+                    Text(
+                      auth.error!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: PatientlyTheme.danger,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 30),
+                  FilledButton(
+                    onPressed: auth.busy ? null : _submit,
+                    child: Text(auth.busy ? 'ENTERING…' : 'ENTER'),
+                  ),
+                ],
               ),
             ),
           ),
@@ -97,25 +107,18 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class _Brand extends StatelessWidget {
-  const _Brand({this.centered = false});
-  final bool centered;
+  const _Brand();
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: centered
-          ? MainAxisAlignment.center
-          : MainAxisAlignment.start,
-      children: const [
-        Icon(Icons.schedule, color: PatientlyTheme.accent),
-        SizedBox(width: 8),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.schedule, color: PatientlyTheme.gold, size: 17),
+        const SizedBox(width: 9),
         Text(
           'Patiently',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: PatientlyTheme.ink,
-          ),
+          style: PatientlyTheme.serif(size: 25, weight: FontWeight.w500),
         ),
       ],
     );
