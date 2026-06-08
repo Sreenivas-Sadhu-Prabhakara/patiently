@@ -3,8 +3,7 @@ site_description: >-
   Tell us what you want over the next 3–6 months. Patiently hunts the cheapest
   landed price across India's stores every day and buys it on your one-tap approval.
 site_author: Patiently
-# Set this to your real domain before deploying.
-site_url: https://patiently.example.in/
+site_url: https://sreenivas-sadhu-prabhakara.github.io/patiently/
 
 theme:
   name: material
